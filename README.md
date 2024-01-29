@@ -20,7 +20,6 @@
    - own commands
 - [x] Customize commands that executed on getting purchases by player.
 - [x] Notification of the player about not picked up purchases when logging in to the server
-- [x] Notification of the player about the presence of purchases in the cart
 
 # 📋 Future plans:
 - [ ] Webhook message on giving product to Discord
