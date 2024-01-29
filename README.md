@@ -5,9 +5,8 @@
 **BetterDonate** - A plugin for Spigot that adds a shopping cart for players
 
 <hr>
-<br>
 
-<div align="center"><a href="README-RU.md"><h3>Версия на русском</h3></a></div>
+# ![Версия на русском](README-RU.md)
 
 <hr>
 
