@@ -1,0 +1,16 @@
+name: BetterDonate
+version: '${project.version}'
+main: zxc.mrdrag0nxyt.betterdonate.BetterDonate
+api-version: '1.16'
+prefix: BetterDonate
+authors: [MrDrag0nXYT]
+website: 'https://slv.nshard.fun'
+
+commands:
+  cart:
+    permission: 'betterdonate.cart'
+  betterdonate:
+    permission: 'betterdonate.admin'
+    aliases:
+      - 'bdonate'
+      - 'bdon'

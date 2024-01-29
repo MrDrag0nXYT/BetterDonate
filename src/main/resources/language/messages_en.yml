@@ -1,0 +1,35 @@
+
+# #dc143c - Negative color
+# #00bfff - Main color
+# #00ff7f - Secondary color (positive)
+
+no-permission: '&#dc143cYou have not permission to use this command!'
+reload: '&#00ff7fPlugin successfully reloaded'
+
+cart:
+  help:
+    - ' '
+    - '&#00bfff/cart help &#c0c0c0- &fshow list of commands'
+    - '&#00bfff/cart get &#c0c0c0- &fget your purchases'
+    - ' '
+  empty: '&fYour cart &#dc143cis empty'
+  success:
+    - ' '
+    - '&fYou &#00ff7fsuccessfully get &fall your purchases!'
+    - ' '
+  on-join-notify:
+    - ' '
+    - '&fThere is something &#00ff7fin your cart&f! Send &#00bfff/cart get &fto get your purchases'
+    - ' '
+
+admin:
+  help:
+    - ' '
+    - '&#00bfff/betterdonate help &#c0c0c0- &fshow list of commands'
+    - '&#00bfff/betterdonate reload &#c0c0c0- &freload plugin configuration'
+    - '&#00bfff/betterdonate give <player> <product type> <product> &#c0c0c0- &fgive product to a player'
+    - ' '
+  give:
+    usage: '&#00bfff/betterdonate give <player> <product type> <product>'
+    success: '&fYou &#00ff7fsuccessfully &fgave product &#00ff7f%product% &fto player &#00ff7f%player%'
+    disabled: '&fYou &#dc143ccan not &fgive product &#dc143c%product%&f!'
