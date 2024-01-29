@@ -5,9 +5,8 @@
 **BetterDonate** - плагин для Spigot, который добавляет корзину покупок для игроков
 
 <hr>
-<br>
 
-<div align="center"><a href="README.md"><h3>English version</h3></a></div>
+# ![English version](README.md)
 
 <hr>
 
