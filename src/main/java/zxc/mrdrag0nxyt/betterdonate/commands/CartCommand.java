@@ -11,6 +11,7 @@ import zxc.mrdrag0nxyt.betterdonate.util.ColorUtil;
 import zxc.mrdrag0nxyt.betterdonate.util.config.CartConfig;
 import zxc.mrdrag0nxyt.betterdonate.util.config.Config;
 import zxc.mrdrag0nxyt.betterdonate.util.config.LanguageConfig;
+import zxc.mrdrag0nxyt.betterdonate.util.product.ProductType;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class CartCommand implements CommandExecutor {
     private final FileConfiguration languageConfig;
     private final FileConfiguration cartConfig;
 
-    public CartCommand(BetterDonate plugin, Config config, LanguageConfig languageConfig, CartConfig cartConfig){
+    public CartCommand(BetterDonate plugin, Config config, LanguageConfig languageConfig, CartConfig cartConfig) {
         this.plugin = plugin;
         this.config = config.getConfig();
         this.languageConfig = languageConfig.getLanguageConfig();
@@ -36,15 +37,11 @@ public class CartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (commandSender.hasPermission("betterdonate.cart")){
+        if (commandSender.hasPermission("betterdonate.cart")) {
 
             if (strings.length == 0) {
-                List<String> helpMessageList = languageConfig.getStringList("cart.help");
+                return getProducts(commandSender);
 
-                for (String helpMessage : helpMessageList) {
-                    commandSender.sendMessage(ColorUtil.setColor(helpMessage));
-                }
-                return false;
             }
 
             if (strings[0].equalsIgnoreCase("help")) {
@@ -54,111 +51,91 @@ public class CartCommand implements CommandExecutor {
                     commandSender.sendMessage(ColorUtil.setColor(helpMessage));
                 }
             } else if (strings[0].equalsIgnoreCase("get")) {
-
-                ConfigurationSection section = cartConfig.getConfigurationSection("players." + commandSender.getName() + ".products");
-
-                if (section == null){
-                    commandSender.sendMessage(ColorUtil.setColor(
-                            config.getString("prefix") +
-                                    languageConfig.getString("cart.empty")
-                    ));
-                    return false;
-                }
-
-
-
-                if (cartConfig.getString("players." + commandSender.getName() + ".products.donate") != null){
-
-                    for (String cmd : config.getStringList("commands.donate")){
-                        cmd = cmd
-                                .replace("%player%", commandSender.getName()
-                                );
-
-                        cmd = cmd
-                                .replace("%product%", cartConfig.getString("players." + commandSender.getName() + ".products.donate")
-                                );
-
-                        runCommand(cmd);
-                    }
-                }
-
-                if (cartConfig.getString("players." + commandSender.getName() + ".products.money") != null){
-
-                    for (String cmd : config.getStringList("commands.money")){
-                        cmd = cmd
-                                .replace("%player%", commandSender.getName()
-                                );
-
-                        cmd = cmd
-                                .replace("%product%", cartConfig.getString("players." + commandSender.getName() + ".products.money")
-                                );
-
-                        runCommand(cmd);
-                    }
-                }
-
-                if (cartConfig.getString("players." + commandSender.getName() + ".products.tokens") != null){
-
-                    for (String cmd : config.getStringList("commands.tokens")){
-                        cmd = cmd
-                                .replace("%player%", commandSender.getName()
-                                );
-
-                        cmd = cmd
-                                .replace("%product%", cartConfig.getString("players." + commandSender.getName() + ".products.tokens")
-                                );
-
-                        runCommand(cmd);
-                    }
-                }
-
-                if (!cartConfig.getStringList("players." + commandSender.getName() + ".products.commands").isEmpty()){
-
-                    List<String> commandsList = cartConfig.getStringList("players." + commandSender.getName() + ".products.commands");
-
-                    for (String cmd : commandsList){
-                        runCommand(cmd);
-                    }
-                }
-
-
-                List<String> listSuccessMessages = languageConfig.getStringList("cart.success");
-
-                for (String successMessage : listSuccessMessages) {
-                    commandSender.sendMessage(ColorUtil.setColor(successMessage));
-                }
-
-
-
-                for (String cmd : config.getStringList("commands.on-get")){
-                    cmd = cmd
-                            .replace("%player%", commandSender.getName()
-                            );
-
-                    runCommand(cmd);
-                }
-
-                cartConfig.set("players." + commandSender.getName(), null);
-                cartConfigFile.saveCartConfig();
+                return getProducts(commandSender);
 
             } else {
-                List<String> helpMessageList = languageConfig.getStringList("cart.help");
+                return getProducts(commandSender);
 
-                for (String helpMessage : helpMessageList) {
-                    commandSender.sendMessage(ColorUtil.setColor(helpMessage));
-                }
-                return false;
             }
 
             return true;
         } else {
             commandSender.sendMessage(ColorUtil.setColor(
                     config.getString("prefix") +
-                    languageConfig.getString("no-permission")
-                    ));
+                            languageConfig.getString("no-permission")
+            ));
             return false;
         }
     }
+
+
+
+    private boolean getProducts(CommandSender commandSender) {
+
+        ConfigurationSection section = cartConfig.getConfigurationSection("players." + commandSender.getName() + ".products");
+
+        if (section == null) {
+            commandSender.sendMessage(ColorUtil.setColor(
+                    config.getString("prefix") +
+                            languageConfig.getString("cart.empty")
+            ));
+            return false;
+        }
+
+
+        List<String> listSuccessMessages = languageConfig.getStringList("cart.success");
+
+        for (String successMessage : listSuccessMessages) {
+            commandSender.sendMessage(ColorUtil.setColor(successMessage));
+        }
+
+        for (String cmd : config.getStringList("commands.on-get")) {
+            cmd = cmd
+                    .replace("%player%", commandSender.getName()
+                    );
+
+            runCommand(cmd);
+        }
+
+        for (ProductType type : ProductType.values()) {
+            if (type != ProductType.COMMAND) {
+                if (cartConfig.getString("players." + commandSender.getName() + "." + type.getCartKey()) != null) {
+                    List<String> commandsList = config.getStringList("commands." + type.getName());
+
+                    giveProductCommand(type, commandSender, commandsList);
+                }
+            } else {
+                if (cartConfig.getString("players." + commandSender.getName() + "." + type.getCartKey()) != null) {
+                    List<String> commandsList = cartConfig.getStringList("players." + commandSender.getName() + ".products.commands");
+
+                    giveProductCommand(type, commandSender, commandsList);
+                }
+            }
+        }
+
+        cartConfig.set("players." + commandSender.getName(), null);
+        cartConfigFile.saveCartConfig();
+        return true;
+    }
+
+
+
+    private void giveProductCommand(ProductType type, CommandSender commandSender, List<String> commandsList){
+        for (String cmd : commandsList) {
+            plugin.getLogger().info(cmd);
+
+            cmd = cmd
+                    .replace("%player%", commandSender.getName()
+                    );
+
+            cmd = cmd
+                    .replace("%product%", cartConfig.getString("players." + commandSender.getName() + "." + type.getCartKey())
+                    );
+
+            runCommand(cmd);
+        }
+    }
+
 
 
     private void runCommand(String cmd) {

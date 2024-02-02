@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import zxc.mrdrag0nxyt.betterdonate.BetterDonate;
 import zxc.mrdrag0nxyt.betterdonate.util.ColorUtil;
+import zxc.mrdrag0nxyt.betterdonate.util.PurchasesCounterFile;
+import zxc.mrdrag0nxyt.betterdonate.util.product.ProductType;
 import zxc.mrdrag0nxyt.betterdonate.util.config.CartConfig;
 import zxc.mrdrag0nxyt.betterdonate.util.config.Config;
 import zxc.mrdrag0nxyt.betterdonate.util.config.LanguageConfig;
@@ -19,23 +21,27 @@ public class AdminCommand implements CommandExecutor {
     private final FileConfiguration config;
     private final FileConfiguration languageConfig;
     private final FileConfiguration cartConfig;
+    private final PurchasesCounterFile purchasesCounterFile;
+    private final FileConfiguration purchasesCounter;
 
     private final CartConfig cartConfigFile;
 
 
-    public AdminCommand(BetterDonate plugin, Config config, LanguageConfig languageConfig, CartConfig cartConfig){
+    public AdminCommand(BetterDonate plugin, Config config, LanguageConfig languageConfig, CartConfig cartConfig, PurchasesCounterFile purchasesCounterFile) {
         this.plugin = plugin;
         this.config = config.getConfig();
         this.languageConfig = languageConfig.getLanguageConfig();
 
         this.cartConfigFile = cartConfig;
         this.cartConfig = cartConfigFile.getCartConfig();
+        this.purchasesCounterFile = purchasesCounterFile;
+        this.purchasesCounter = purchasesCounterFile.getConfig();
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (commandSender.hasPermission("betterdonate.admin")){
+        if (commandSender.hasPermission("betterdonate.admin")) {
 
             if (strings.length == 0) {
                 List<String> helpMessageList = languageConfig.getStringList("admin.help");
@@ -46,19 +52,19 @@ public class AdminCommand implements CommandExecutor {
                 return false;
             }
 
-            if (strings[0].equalsIgnoreCase("reload")){
+            if (strings[0].equalsIgnoreCase("reload")) {
 
                 plugin.reloadConfigs();
                 commandSender.sendMessage(ColorUtil.setColor(
                         config.getString("prefix") +
-                        languageConfig.getString("reload")
+                                languageConfig.getString("reload")
                 ));
 
                 return true;
-                
+
             } else if (strings[0].equalsIgnoreCase("give")) {
 
-                if (strings.length < 2){
+                if (strings.length < 2) {
                     commandSender.sendMessage(ColorUtil.setColor(
                             config.getString("prefix") +
                                     languageConfig.getString("admin.give.usage")
@@ -68,12 +74,13 @@ public class AdminCommand implements CommandExecutor {
 
                 boolean isAdded = addToCart(strings);
 
-                if (isAdded){
+                if (isAdded) {
 
                     String productName = "true";
                     try {
                         productName = strings[3];
-                    } catch (ArrayIndexOutOfBoundsException ignore) {}
+                    } catch (ArrayIndexOutOfBoundsException ignore) {
+                    }
 
                     commandSender.sendMessage(ColorUtil.setColor(
                             config.getString("prefix") +
@@ -104,63 +111,49 @@ public class AdminCommand implements CommandExecutor {
         } else {
             commandSender.sendMessage(ColorUtil.setColor(
                     config.getString("prefix") +
-                    languageConfig.getString("no-permission")
+                            languageConfig.getString("no-permission")
             ));
             return false;
         }
     }
 
 
+    private boolean addToCart(String[] strings) {
+        ProductType productType = ProductType.getProductType(strings[2].toLowerCase());
 
-    private boolean addToCart(String[] strings){
+        if (config.getBoolean(productType.getConfigKey())) {
 
-        switch (strings[2].toLowerCase()){
-            case "donate":
-                if (config.getBoolean("features.donate")){
-                    cartConfig.set("players." + strings[1] + ".products.donate", strings[3]);
-                } else {
-                    return false;
+            if (productType != ProductType.COMMAND) {
+                cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), strings[3]);
+
+            } else {
+                String cmd = "";
+
+                for (int i = 3; i < strings.length; i++) {
+                    cmd += strings[i] + " ";
                 }
-                break;
 
-            case "money":
-                if (config.getBoolean("features.money")){
-                    cartConfig.set("players." + strings[1] + ".products.money", strings[3]);
-                } else {
-                    return false;
-                }
-                break;
+                List<String> commandList = cartConfig.getStringList("players." + strings[1] + "." + productType.getCartKey());
+                commandList.add(cmd.trim());
 
-            case "tokens":
-                if (config.getBoolean("features.tokens")){
-                    cartConfig.set("players." + strings[1] + ".products.tokens", strings[3]);
-                } else {
-                    return false;
-                }
-                break;
+                cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), commandList);
+            }
 
-            case "command":
-                if (config.getBoolean("features.commands")){
+            setPlayerPurchases(strings[1]);
 
-                    String cmd = "";
-
-                    for (int i = 3; i < strings.length; i++) {
-                        cmd += strings[i] + " ";
-                    }
-
-                    List<String> commandList = cartConfig.getStringList("players." + strings[1] + ".products.commands");
-                    commandList.add(cmd.trim());
-
-                    cartConfig.set("players." + strings[1] + ".products.commands", commandList);
-                } else {
-                    return false;
-                }
-                break;
-            default:
-                return false;
+        } else {
+            return false;
         }
 
         cartConfigFile.saveCartConfig();
         return true;
+    }
+
+    private void setPlayerPurchases(String playername){
+        int count = purchasesCounter.getInt("players." + playername);
+        count++;
+
+        purchasesCounter.set("players." + playername, count);
+        purchasesCounterFile.saveFile();
     }
 }
