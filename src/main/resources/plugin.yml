@@ -6,6 +6,8 @@ prefix: BetterDonate
 authors: [MrDrag0nXYT]
 website: 'https://slv.nshard.fun'
 
+softdepend: [PlaceholderAPI]
+
 commands:
   cart:
     permission: 'betterdonate.cart'

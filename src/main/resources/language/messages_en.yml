@@ -6,6 +6,11 @@
 no-permission: '&#dc143cYou have not permission to use this command!'
 reload: '&#00ff7fPlugin successfully reloaded'
 
+update:
+  no-updates: '&#00ff7fThere is not a newer versions available!'
+  has-updates: '&#00bfffThere is a new update available'
+  check-failed: '&#dc143cUnable to check for updates: '
+
 cart:
   help:
     - ' '

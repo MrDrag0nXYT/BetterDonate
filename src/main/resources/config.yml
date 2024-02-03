@@ -6,12 +6,19 @@
 #    ██████╦╝███████╗░░░██║░░░░░░██║░░░███████╗██║░░██║██████╔╝╚█████╔╝██║░╚███║██║░░██║░░░██║░░░███████╗
 #    ╚═════╝░╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
 #
-#                              V 1.0 [ 01.2024 ]   |   Author: MrDrag0nXYT
-#                                      https://slv.nshard.fun
+#                   V 1.0.1 [ 01.2024 ]   |   Author: MrDrag0nXYT (https://slv.nshard.fun)
+#                         Source code: https://github.com/MrDrag0nXYT/BetterDonate
 #
 
 prefix: '&#00ff7fBetter&#00bfffDonate &#505050| '
 
+# Checks updates on plugin startup
+check-update: true
+
+# Available now: ru - russian; en - english
+language: en
+
+# Commands to give a products
 commands:
   donate:
     - 'lp user %player% parent add %product%'
@@ -19,13 +26,14 @@ commands:
     - 'eco give %player% %product%'
   tokens:
     - 'p give %player% %product%'
-  on-get:
-    - 'title %player% title ["",{"text":"\u0421\u043f\u0430\u0441\u0438\u0431\u043e \u0437\u0430 \u043f\u043e\u043a\u0443\u043f\u043a\u0443, "},{"text":"%player%","color":"#00FF7F"},{"text":"!"}]'
 
+  # Commands that runs when player gets all products from cart
+  on-get:
+    - 'title %player% title ["",{"text":"Thanks for purchasing, "},{"text":"%player%","color":"#00FF7F"},{"text":"!"}]'
+
+# Toggles product types that players can buy
 features:
   donate: true
   money: true
   tokens: true
   commands: true
-
-language: ru

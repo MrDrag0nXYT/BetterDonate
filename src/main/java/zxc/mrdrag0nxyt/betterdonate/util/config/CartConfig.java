@@ -10,26 +10,31 @@ public class CartConfig {
 
     private BetterDonate plugin;
     private File file;
+    private File folder;
     private FileConfiguration cartConfig;
 
-    public CartConfig(BetterDonate plugin){
+    public CartConfig(BetterDonate plugin) {
         this.plugin = plugin;
 
         loadCartConfig();
     }
 
 
+    public void loadCartConfig() {
+        folder = new File(plugin.getDataFolder() + File.separator + "data");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
-    public void loadCartConfig(){
-        file = new File(plugin.getDataFolder(), "cart.yml");
-        if (!file.exists()){
-            plugin.saveResource("cart.yml", true);
+        file = new File(folder, "cart.yml");
+        if (!file.exists()) {
+            plugin.saveResource("data" + File.separator + "cart.yml", true);
         }
 
         cartConfig = YamlConfiguration.loadConfiguration(file);
     }
 
-    public void saveCartConfig(){
+    public void saveCartConfig() {
         try {
             cartConfig.save(file);
         } catch (Exception e) {
@@ -37,7 +42,7 @@ public class CartConfig {
         }
     }
 
-    public void reloadCartConfig(){
+    public void reloadCartConfig() {
         try {
             cartConfig.load(file);
         } catch (Exception e) {
@@ -45,7 +50,7 @@ public class CartConfig {
         }
     }
 
-    public FileConfiguration getCartConfig(){
+    public FileConfiguration getCartConfig() {
         return cartConfig;
     }
 }
