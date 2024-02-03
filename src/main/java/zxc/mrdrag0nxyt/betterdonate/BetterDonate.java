@@ -1,5 +1,6 @@
 package zxc.mrdrag0nxyt.betterdonate;
 
+import me.clip.placeholderapi.updatechecker.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.mrdrag0nxyt.betterdonate.commands.AdminCommand;
@@ -10,6 +11,7 @@ import zxc.mrdrag0nxyt.betterdonate.listener.PlayerJoinListener;
 import zxc.mrdrag0nxyt.betterdonate.util.BetterDonatePlaceholderApiHook;
 import zxc.mrdrag0nxyt.betterdonate.util.ColorUtil;
 import zxc.mrdrag0nxyt.betterdonate.util.PurchasesCounterFile;
+import zxc.mrdrag0nxyt.betterdonate.util.SpigotMcOrgUpdateChecker;
 import zxc.mrdrag0nxyt.betterdonate.util.config.CartConfig;
 import zxc.mrdrag0nxyt.betterdonate.util.config.Config;
 import zxc.mrdrag0nxyt.betterdonate.util.config.LanguageConfig;
@@ -32,6 +34,8 @@ public final class BetterDonate extends JavaPlugin {
         cartConfig = new CartConfig(this);
         purchasesCounterFile = new PurchasesCounterFile(this);
         languageConfigFile = new LanguageConfig(this, mainConfig.getString("language"));
+
+        checkUpdate(mainConfig.getBoolean("check-update"));
 
         if (getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new BetterDonatePlaceholderApiHook(this, purchasesCounterFile).register();
@@ -63,9 +67,24 @@ public final class BetterDonate extends JavaPlugin {
         purchasesCounterFile.reloadFile();
     }
 
+    private void checkUpdate(boolean isCheckEnabled){
+        if (isCheckEnabled) {
+            new SpigotMcOrgUpdateChecker(this, languageConfigFile).getVersion(
+                    version -> {
+                        if (this.getDescription().getVersion().equals(version)) {
+                            getLogger().info(ColorUtil.setColor(languageConfigFile.getLanguageConfig().getString("update.no-updates")));
+                        } else {
+                            getLogger().info(ColorUtil.setColor(languageConfigFile.getLanguageConfig().getString("update.has-updates")));
+                        }
+                    });
+        }
+    }
+
+
+
     private void showTitle(boolean enabling){
         getLogger().info(" ");
-        getLogger().info(ColorUtil.setColor(" &#a880ff█▄▄ █▀▀ ▀█▀ ▀█▀ █▀▀ █▀█ █▀▄ █▀█ █▄░█ ▄▀█ ▀█▀ █▀▀     &#C0C0C0|   &#fffafaVer. &#a880ff1.0.1 [ 02.2024 ] "));
+        getLogger().info(ColorUtil.setColor(" &#a880ff█▄▄ █▀▀ ▀█▀ ▀█▀ █▀▀ █▀█ █▀▄ █▀█ █▄░█ ▄▀█ ▀█▀ █▀▀     &#C0C0C0|   &#fffafaVer. &#a880ff" + this.getDescription().getVersion() + " "));
         getLogger().info(ColorUtil.setColor(" &#a880ff█▄█ ██▄ ░█░ ░█░ ██▄ █▀▄ █▄▀ █▄█ █░▀█ █▀█ ░█░ ██▄     &#C0C0C0|   &#fffafaAuthor: &#a880ffMrDrag0nXYT "));
         getLogger().info(" ");
 
