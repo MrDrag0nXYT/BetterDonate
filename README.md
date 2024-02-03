@@ -20,10 +20,11 @@
    - own commands
 - [x] Customize commands that executed on getting purchases by player.
 - [x] Notification of the player about not picked up purchases when logging in to the server
+- [x] Placeholder with the number of purchases
+- [x] Update check (can be disabled in config.yml)
 
 # 📋 Future plans:
 - [ ] Webhook message on giving product to Discord
-- [ ] Placeholder with the number of purchases
 
 <hr>
 <br>
@@ -40,7 +41,7 @@ Commands list:
 
 - `/betterdonate help` - show command list
 - `/betterdonate reload` - reload plugin
-- `/betterdonate give <игрок> <тип товара> <аргумент>` - give a purchase to player
+- `/betterdonate give <player> <product type> <argument>` - give a purchase to player
   - Example of use: `/betterdonate give Player123 donate vip`
 
 ### `/cart` - command for players
@@ -51,6 +52,11 @@ Commands list:
 
 - `/cart help` - show command list
 - `/cart get` - get purchases
+
+<br>
+
+## 💾 Placeholders:
+### **%betterdonate_purchases_count%** - returns count of player purchases
 
 <br>
 
