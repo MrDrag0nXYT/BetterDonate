@@ -71,6 +71,8 @@ public final class BetterDonate extends JavaPlugin {
         if (isCheckEnabled) {
             new SpigotMcOrgUpdateChecker(this, languageConfigFile).getVersion(
                     version -> {
+                        version = this.getDescription().getVersion();
+
                         if (this.getDescription().getVersion().equals(version)) {
                             getLogger().info(ColorUtil.setColor(languageConfigFile.getLanguageConfig().getString("update.no-updates")));
                         } else {
