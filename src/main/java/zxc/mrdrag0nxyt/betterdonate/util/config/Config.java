@@ -1,5 +1,6 @@
 package zxc.mrdrag0nxyt.betterdonate.util.config;
 
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import zxc.mrdrag0nxyt.betterdonate.BetterDonate;
@@ -10,6 +11,7 @@ public class Config {
 
     private final BetterDonate plugin;
     private File file;
+    @Getter
     private FileConfiguration config;
 
     public Config(BetterDonate plugin){
@@ -37,10 +39,6 @@ public class Config {
         } catch (Exception e){
             plugin.getLogger().severe(String.valueOf(e));
         }
-    }
-
-    public FileConfiguration getConfig(){
-        return config;
     }
 
 }

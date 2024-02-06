@@ -1,0 +1,127 @@
+webhooks:
+
+  #    Available placeholders:
+  #      - %player% - name of player that bought product
+  #      - %product% - name of this product, defined in config.yml
+
+  donate:
+    avatar-url: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+    username: 'BetterDonate'
+    content: 'Example Webhook message when player bought donate'
+
+    embeds:
+      1:
+        title: 'First embed'
+        description: 'Description of this embed'
+        color: '#00bfff'
+        thumbnail: 'https://www.spigotmc.org/attachments/title-png.812653/'
+        footer:
+          text: 'Footer text'
+          image: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+        author:
+          name: 'MrDrag0nXYT'
+          link: 'https://www.spigotmc.org/members/mrdrag0nxyt.1959589/'
+          image: 'https://www.spigotmc.org/data/avatars/l/1959/1959589.jpg'
+
+        fields:
+          1:
+            text: 'Field 1'
+            description: 'Not inline'
+            is-inline: false
+          2:
+            text: 'Field 2'
+            description: 'Inline'
+            is-inline: true
+
+
+
+  money:
+    avatar-url: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+    username: 'BetterDonate'
+    content: 'Example Webhook message when player bought money'
+
+    embeds:
+      1:
+        title: 'First embed'
+        description: 'Description of this embed'
+        color: '#00bfff'
+        thumbnail: 'https://www.spigotmc.org/attachments/title-png.812653/'
+        footer:
+          text: 'Footer text'
+          image: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+        author:
+          name: 'MrDrag0nXYT'
+          link: 'https://www.spigotmc.org/members/mrdrag0nxyt.1959589/'
+          image: 'https://www.spigotmc.org/data/avatars/l/1959/1959589.jpg'
+
+        fields:
+          1:
+            text: 'Field 1'
+            description: 'Not inline'
+            is-inline: false
+          2:
+            text: 'Field 2'
+            description: 'Inline'
+            is-inline: true
+
+
+
+  tokens:
+    avatar-url: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+    username: 'BetterDonate'
+    content: 'Example Webhook message when player bought tokens'
+
+    embeds:
+      1:
+        title: 'First embed'
+        description: 'Description of this embed'
+        color: '#00bfff'
+        thumbnail: 'https://www.spigotmc.org/attachments/title-png.812653/'
+        footer:
+          text: 'Footer text'
+          image: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+        author:
+          name: 'MrDrag0nXYT'
+          link: 'https://www.spigotmc.org/members/mrdrag0nxyt.1959589/'
+          image: 'https://www.spigotmc.org/data/avatars/l/1959/1959589.jpg'
+
+        fields:
+          1:
+            text: 'Field 1'
+            description: 'Not inline'
+            is-inline: false
+          2:
+            text: 'Field 2'
+            description: 'Inline'
+            is-inline: true
+
+
+
+  commands:
+    avatar-url: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+    username: 'BetterDonate'
+    content: 'Example Webhook message when player bought other product'
+
+    embeds:
+      1:
+        title: 'First embed'
+        description: 'Description of this embed'
+        color: '#00bfff'
+        thumbnail: 'https://www.spigotmc.org/attachments/title-png.812653/'
+        footer:
+          text: 'Footer text'
+          image: 'https://www.spigotmc.org/data/resource_icons/114/114847.jpg'
+        author:
+          name: 'MrDrag0nXYT'
+          link: 'https://www.spigotmc.org/members/mrdrag0nxyt.1959589/'
+          image: 'https://www.spigotmc.org/data/avatars/l/1959/1959589.jpg'
+
+        fields:
+          1:
+            text: 'Field 1'
+            description: 'Not inline'
+            is-inline: false
+          2:
+            text: 'Field 2'
+            description: 'Inline'
+            is-inline: true

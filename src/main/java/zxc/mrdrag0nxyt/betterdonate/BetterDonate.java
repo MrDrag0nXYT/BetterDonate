@@ -1,6 +1,5 @@
 package zxc.mrdrag0nxyt.betterdonate;
 
-import me.clip.placeholderapi.updatechecker.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.mrdrag0nxyt.betterdonate.commands.AdminCommand;
@@ -8,13 +7,11 @@ import zxc.mrdrag0nxyt.betterdonate.commands.CartCommand;
 import zxc.mrdrag0nxyt.betterdonate.commands.completer.AdminCompleter;
 import zxc.mrdrag0nxyt.betterdonate.commands.completer.CartCompleter;
 import zxc.mrdrag0nxyt.betterdonate.listener.PlayerJoinListener;
-import zxc.mrdrag0nxyt.betterdonate.util.BetterDonatePlaceholderApiHook;
-import zxc.mrdrag0nxyt.betterdonate.util.ColorUtil;
-import zxc.mrdrag0nxyt.betterdonate.util.PurchasesCounterFile;
-import zxc.mrdrag0nxyt.betterdonate.util.SpigotMcOrgUpdateChecker;
+import zxc.mrdrag0nxyt.betterdonate.util.*;
 import zxc.mrdrag0nxyt.betterdonate.util.config.CartConfig;
 import zxc.mrdrag0nxyt.betterdonate.util.config.Config;
 import zxc.mrdrag0nxyt.betterdonate.util.config.LanguageConfig;
+import zxc.mrdrag0nxyt.betterdonate.util.config.WebhooksConfig;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
@@ -22,7 +19,8 @@ public final class BetterDonate extends JavaPlugin {
 
     private Config configFile;
     private LanguageConfig languageConfigFile;
-    private CartConfig cartConfig;
+    private CartConfig cartConfigFile;
+    private WebhooksConfig webhooksConfigFile;
     private PurchasesCounterFile purchasesCounterFile;
 
     private FileConfiguration mainConfig;
@@ -31,8 +29,10 @@ public final class BetterDonate extends JavaPlugin {
     public void onEnable() {
         configFile = new Config(this);
         mainConfig = configFile.getConfig();
-        cartConfig = new CartConfig(this);
+        cartConfigFile = new CartConfig(this);
+        webhooksConfigFile = new WebhooksConfig(this);
         purchasesCounterFile = new PurchasesCounterFile(this);
+
         languageConfigFile = new LanguageConfig(this, mainConfig.getString("language"));
 
         checkUpdate(mainConfig.getBoolean("check-update"));
@@ -41,14 +41,18 @@ public final class BetterDonate extends JavaPlugin {
             new BetterDonatePlaceholderApiHook(this, purchasesCounterFile).register();
         }
 
+        if (mainConfig.getBoolean("enable-metrics")) {
+            BStatsMetrics metrics = new BStatsMetrics(this, 20916);
+        }
 
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, configFile, languageConfigFile, cartConfig), this);
 
-        getCommand("cart").setExecutor(new CartCommand(this, configFile, languageConfigFile, cartConfig));
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, configFile, languageConfigFile, cartConfigFile), this);
+
+        getCommand("cart").setExecutor(new CartCommand(this, configFile, languageConfigFile, cartConfigFile));
         getCommand("cart").setTabCompleter(new CartCompleter());
 
-        getCommand("betterdonate").setExecutor(new AdminCommand(this, configFile, languageConfigFile, cartConfig, purchasesCounterFile));
+        getCommand("betterdonate").setExecutor(new AdminCommand(this, configFile, languageConfigFile, cartConfigFile, purchasesCounterFile, webhooksConfigFile));
         getCommand("betterdonate").setTabCompleter(new AdminCompleter());
 
         showTitle(true);
@@ -56,15 +60,16 @@ public final class BetterDonate extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        cartConfig.saveCartConfig();
+        cartConfigFile.saveCartConfig();
         showTitle(false);
     }
 
     public void reloadConfigs(){
         configFile.reloadConfig();
         languageConfigFile.reloadLanguageConfig(mainConfig.getString("language"));
-        cartConfig.reloadCartConfig();
+        cartConfigFile.reloadCartConfig();
         purchasesCounterFile.reloadFile();
+        webhooksConfigFile.reloadWebhooks();
     }
 
     private void checkUpdate(boolean isCheckEnabled){

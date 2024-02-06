@@ -6,17 +6,44 @@
 #    ██████╦╝███████╗░░░██║░░░░░░██║░░░███████╗██║░░██║██████╔╝╚█████╔╝██║░╚███║██║░░██║░░░██║░░░███████╗
 #    ╚═════╝░╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
 #
-#                   V 1.0.1.1   |   Author: MrDrag0nXYT (https://slv.nshard.fun)
-#                         Source code: https://github.com/MrDrag0nXYT/BetterDonate
+#                     V 1.1   |   Author: MrDrag0nXYT (https://slv.nshard.fun)
+#                     Source code: https://github.com/MrDrag0nXYT/BetterDonate
 #
 
 prefix: '&#00ff7fBetter&#00bfffDonate &#505050| '
 
+# Available now: ru - russian; en - english
+language: en
+
 # Checks updates on plugin startup
 check-update: true
 
-# Available now: ru - russian; en - english
-language: en
+# Enable metrics? (what data collected -> https://bstats.org)
+enable-metrics: true
+
+
+
+# Is webhooks enabled?
+webhook:
+  enabled: false
+  link: 'https://discordapp.com/api/webhooks/your-token-here'
+
+
+
+# Toggles product types that players can buy
+features:
+  donate:
+    enabled: true
+    visible-name: 'privilege'
+  money:
+    enabled: true
+    visible-name: 'coins'
+  tokens:
+    enabled: true
+    visible-name: 'tokens'
+  commands:
+    enabled: true
+    visible-name: 'other product'
 
 # Commands to give a products
 commands:
@@ -30,10 +57,3 @@ commands:
   # Commands that runs when player gets all products from cart
   on-get:
     - 'title %player% title ["",{"text":"Thanks for purchasing, "},{"text":"%player%","color":"#00FF7F"},{"text":"!"}]'
-
-# Toggles product types that players can buy
-features:
-  donate: true
-  money: true
-  tokens: true
-  commands: true

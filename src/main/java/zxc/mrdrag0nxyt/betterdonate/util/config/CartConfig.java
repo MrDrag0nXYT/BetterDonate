@@ -1,5 +1,6 @@
 package zxc.mrdrag0nxyt.betterdonate.util.config;
 
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import zxc.mrdrag0nxyt.betterdonate.BetterDonate;
@@ -11,6 +12,7 @@ public class CartConfig {
     private BetterDonate plugin;
     private File file;
     private File folder;
+    @Getter
     private FileConfiguration cartConfig;
 
     public CartConfig(BetterDonate plugin) {
@@ -50,7 +52,4 @@ public class CartConfig {
         }
     }
 
-    public FileConfiguration getCartConfig() {
-        return cartConfig;
-    }
 }
