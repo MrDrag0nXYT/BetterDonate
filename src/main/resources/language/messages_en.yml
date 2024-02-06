@@ -38,3 +38,6 @@ admin:
     usage: '&#00bfff/betterdonate give <player> <product type> <product>'
     success: '&fYou &#00ff7fsuccessfully &fgave product &#00ff7f%product% &fto player &#00ff7f%player%'
     disabled: '&fYou &#dc143ccan not &fgive product &#dc143c%product%&f!'
+  clear:
+    usage: '&#00bfff/betterdonate clear <player>'
+    success: '&fYou &#00ff7fsuccessfully &fcleared &#00ff7f%player%&f`s cart'

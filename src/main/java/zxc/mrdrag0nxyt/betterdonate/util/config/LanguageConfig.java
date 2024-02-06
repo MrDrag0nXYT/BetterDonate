@@ -1,5 +1,6 @@
 package zxc.mrdrag0nxyt.betterdonate.util.config;
 
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import zxc.mrdrag0nxyt.betterdonate.BetterDonate;
@@ -11,6 +12,7 @@ public class LanguageConfig {
     private final BetterDonate plugin;
     private File file;
     private File folder;
+    @Getter
     private FileConfiguration languageConfig;
 
     public LanguageConfig(BetterDonate plugin, String language){
@@ -36,11 +38,6 @@ public class LanguageConfig {
             plugin.getLogger().severe(String.valueOf(e));
         }
     }
-
-    public FileConfiguration getLanguageConfig(){
-        return languageConfig;
-    }
-
 
 
     private void initializeLangConfig(String language){

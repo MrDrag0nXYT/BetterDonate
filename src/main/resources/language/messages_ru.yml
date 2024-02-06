@@ -38,3 +38,6 @@ admin:
     usage: '&#00bfff/betterdonate give <игрок> <тип товара> <товар>'
     success: '&fВы &#00ff7fуспешно &fвыдали товар &#00ff7f%product% &fигроку &#00ff7f%player%'
     disabled: '&fВы &#dc143cне можете &fвыдать товар &#dc143c%product%&f!'
+  clear:
+    usage: '&#00bfff/betterdonate clear <игрок>'
+    success: '&fВы &#00ff7fуспешно &fочистили корзину игроку &#00ff7f%player%'

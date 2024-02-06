@@ -18,6 +18,7 @@ public class AdminCompleter implements TabCompleter {
                 return Arrays.asList(
                         "help",
                         "give",
+                        "clear",
                         "reload"
                 );
 
