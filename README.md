@@ -6,13 +6,11 @@
 
 <hr>
 
-# ![Версия на русском](README-RU.md)
+# [Версия на русском](README-RU.md)
 
 <hr>
 
-# ✅ What's already done:
-- [x] Config support, saving cart to YAML file and several languages (currently RU/EN)
-- [x] Reload with /betterdonate reload
+# 🌠 Features
 - [x] Support for different types of products with customization of commands for issuing:
    - donate-group (e.g. LuckPerms)
    - money (e.g. Vault)
@@ -21,10 +19,27 @@
 - [x] Customize commands that executed on getting purchases by player.
 - [x] Notification of the player about not picked up purchases when logging in to the server
 - [x] Placeholder with the number of purchases
-- [x] Update check (can be disabled in config.yml)
+- [x] Webhook message on giving product to Discord
 
-# 📋 Future plans:
-- [ ] Webhook message on giving product to Discord
+<hr>
+<br>
+
+# 📷 Screenshots
+
+Easy to use command for give
+![](docs/console.png)
+
+On join non empty cart alert
+![](docs/on-join-alert.png)
+
+Get all purchases on one command
+![](docs/cart-get-command.png)
+
+Easy but powerful configuration
+![](docs/config.png)
+
+Discord messages on purchasement
+![](docs/discord-webhook-msg.png)
 
 <hr>
 <br>
@@ -41,6 +56,7 @@ Commands list:
 
 - `/betterdonate help` - show command list
 - `/betterdonate reload` - reload plugin
+- `/betterdonate clear <player>` - clear player's cart
 - `/betterdonate give <player> <product type> <argument>` - give a purchase to player
   - Example of use: `/betterdonate give Player123 donate vip`
 
