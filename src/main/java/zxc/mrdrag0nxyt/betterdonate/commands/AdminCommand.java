@@ -81,7 +81,7 @@ public class AdminCommand implements CommandExecutor {
                         return false;
                     }
 
-                    boolean isAdded = addToCart(strings);
+                    boolean isAdded = addToCart(commandSender, strings);
 
                     if (isAdded) {
 
@@ -148,7 +148,7 @@ public class AdminCommand implements CommandExecutor {
     }
 
 
-    private boolean addToCart(String[] strings) {
+    private boolean addToCart(CommandSender commandSender, String[] strings) {
         ProductType productType;
 
         try {
@@ -159,20 +159,37 @@ public class AdminCommand implements CommandExecutor {
 
         if (config.getBoolean(productType.getConfigKey() + ".enabled")) {
 
-            if (productType != ProductType.COMMAND) {
-                cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), strings[3]);
+            switch (productType) {
+                case COMMAND:
+                    String cmd = "";
 
-            } else {
-                String cmd = "";
+                    for (int i = 3; i < strings.length; i++) {
+                        cmd += strings[i] + " ";
+                    }
 
-                for (int i = 3; i < strings.length; i++) {
-                    cmd += strings[i] + " ";
-                }
+                    List<String> commandList = cartConfig.getStringList("players." + strings[1] + "." + productType.getCartKey());
+                    commandList.add(cmd.trim());
 
-                List<String> commandList = cartConfig.getStringList("players." + strings[1] + "." + productType.getCartKey());
-                commandList.add(cmd.trim());
+                    cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), commandList);
+                    break;
 
-                cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), commandList);
+                case DONATE:
+                    cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), strings[3]);
+                    break;
+
+                default:
+                    try {
+                        int sum = Integer.parseInt(cartConfig.getString("players." + strings[1] + "." + productType.getCartKey()));
+                        sum += Integer.parseInt(strings[3]);
+                        cartConfig.set("players." + strings[1] + "." + productType.getCartKey(), sum);
+                    } catch (Exception e) {
+                        commandSender.sendMessage(ColorUtil.setColor(
+                                config.getString("prefix") +
+                                        languageConfig.getString("admin.clear.usage")
+                        ));
+                        return false;
+                    }
+                    break;
             }
 
             setPlayerPurchases(strings[1]);
