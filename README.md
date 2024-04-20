@@ -99,4 +99,6 @@ Commands list:
 
 - If you find a bug or want to help with development, feel free to contact me
   - Contact links [here](https://slv.nshard.fun/) 
-- You can also (optionally) [donate me](https://www.donationalerts.com/r/mrdrag0nxyt)
+- You can also (optionally) donate me:
+  - [DonationAlerts](https://www.donationalerts.com/r/mrdrag0nxyt)
+  - TON: ```UQAwUJ_DWQ26_b94mFAy0bE1hrxVRHrq51umphFPreFraVL2```

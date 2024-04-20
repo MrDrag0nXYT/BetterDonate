@@ -101,4 +101,6 @@
 
 - Если вы нашли баг или хотите помочь в разработке - не стесняйтесь обращаться ко мне
   - Ссылки на контакты [тут](https://slv.nshard.fun/) 
-- Также (по желанию) вы можете [дать мне денег](https://www.donationalerts.com/r/mrdrag0nxyt)
+- Также (по желанию) вы можете дать мне денег:
+  - [DonationAlerts](https://www.donationalerts.com/r/mrdrag0nxyt)
+  - TON: ```UQAwUJ_DWQ26_b94mFAy0bE1hrxVRHrq51umphFPreFraVL2```
